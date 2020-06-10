@@ -1,6 +1,7 @@
 import app from './app';
 import Debug from 'debug';
 import http from 'http';
+import { APP_PORT } from './config';
 
 const debug = Debug('file-manager:server');
 
@@ -28,7 +29,7 @@ const normalizePort = (val: string) => {
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(APP_PORT || '3000');
 app.set('port', port);
 
 /**
