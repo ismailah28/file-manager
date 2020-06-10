@@ -1,0 +1,229 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "description": "A dockerized micro-service for adding, updating, retrieving and deleting files.",
+    "version": "1.0.0",
+    "title": "File Manager",
+    "termsOfService": "",
+    "contact": {
+      "email": "ismailah28@gmail.com"
+    },
+    "license": {
+      "name": "Apache 2.0",
+      "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "file",
+      "description": "Everything about file manager"
+    }
+  ],
+  "schemes": ["https", "http"],
+  "paths": {
+    "/files": {
+      "get": {
+        "tags": ["file"],
+        "summary": "Get all files",
+        "description": "",
+        "operationId": "updateFile",
+        "produces": ["application/json"],
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/File"
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid status value"
+          }
+        }
+      },
+      "post": {
+        "tags": ["file"],
+        "summary": "Upload a new file",
+        "description": "",
+        "operationId": "uploadFile",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "title",
+            "in": "formData",
+            "description": "File title",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "The file to upload",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/ApiResponse"
+            }
+          }
+        }
+      }
+    },
+    "/files/{fileId}": {
+      "get": {
+        "tags": ["file"],
+        "summary": "Find file by ID",
+        "description": "Returns a single file",
+        "operationId": "getFileById",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "fileId",
+            "in": "path",
+            "description": "ID of file to return",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      },
+      "put": {
+        "tags": ["file"],
+        "summary": "Updates a file",
+        "description": "",
+        "operationId": "updateFileWithForm",
+        "consumes": ["multipart/form-data"],
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "fileId",
+            "in": "path",
+            "description": "ID of file to update",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "name",
+            "in": "formData",
+            "description": "File name",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "file",
+            "in": "formData",
+            "description": "The file to upload",
+            "required": true,
+            "type": "file"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["file"],
+        "summary": "Deletes a file",
+        "description": "",
+        "operationId": "deleteFile",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "name": "fileId",
+            "in": "path",
+            "description": "File id to delete",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "$ref": "#/definitions/File"
+            }
+          },
+          "400": {
+            "description": "Invalid ID supplied"
+          },
+          "404": {
+            "description": "File not found"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "File": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string",
+          "example": "doggie"
+        },
+        "fileURL": {
+          "type": "string",
+          "example": "https://cloudinary.com/doggie.png"
+        },
+        "time": {
+          "type": "string"
+        }
+      },
+      "xml": {
+        "name": "File"
+      }
+    },
+    "ApiResponse": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "type": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}
